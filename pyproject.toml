@@ -1,0 +1,10 @@
+[project]
+name = "word2vec-in-numpy"
+version = "0.0.1"
+description = "Skip-gram with negative sampling (word2vec) implemented in pure NumPy."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=2.0.0",
+]
+
