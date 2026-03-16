@@ -1,0 +1,9 @@
+{
+  "max_tokens": 300000,
+  "min_count": 2,
+  "embed_dim": 300,
+  "window": 5,
+  "n_neg": 5,
+  "lr": 0.025,
+  "epochs": 2
+}
