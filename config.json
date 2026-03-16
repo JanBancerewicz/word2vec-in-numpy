@@ -1,7 +1,7 @@
 {
-  "max_tokens": 300000,
+  "max_tokens": 2000000,
   "min_count": 2,
-  "embed_dim": 300,
+  "embed_dim": 200,
   "window": 5,
   "n_neg": 5,
   "lr": 0.025,
