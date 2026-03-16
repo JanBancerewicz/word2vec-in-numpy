@@ -26,7 +26,7 @@ $$\mathcal{L} = -\log \sigma(v_c \cdot u_o) - \sum_{k=1}^{K} \log \sigma(-v_c \c
 where `v_c` is the center embedding, `u_o` is the positive context vector, and `u_1..u_K` are noise vectors sampled from the smoothed unigram distribution P(w)^0.75.
 
 **Key design choices:**
-
+s
 | Choice | Detail |
 |---|---|
 | Architecture | Skip-gram |
