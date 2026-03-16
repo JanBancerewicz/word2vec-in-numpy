@@ -271,6 +271,12 @@ tests/test_word2vec.py::TestSigmoid::test_output_range               PASSED
 
 ## Conclusion
 
+The most surprising thing when implementing this: word2vec isn't a language model at all. It never predicts the next word. It just solves a much simpler binary question — "did these two words actually appear near each other? or is it made up?" No softmax over 100k words, no expensive matrix multiplications. Just sigmoid + a few dot products per step, which is why it trains on a CPU in reasonable time.
+
+The other thing worth to mention: subsampling isn't just a speed trick. Dropping "the", "of", "is" from the corpus before building context windows means words that were never direct neighbors now suddenly are. You're reading with all the filler words deleted, so the model sees more meaningful co-occurrences per window.
+
+Building Word2Vec from scratch in NumPy surfaces a handful of things that framework-based implementations hide. There is no autograd to catch sign errors in the gradient, no built-in embedding layer to handle index updates. The result is that the code maps almost one-to-one onto the math, which makes it a good reference for understanding what word2vec actually computes.
+
 
 ---
 
