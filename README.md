@@ -51,6 +51,8 @@ word2vec-in-numpy/
 │   ├── preprocess.py        # tokenisation, vocab, subsampling
 │   ├── load_embeddings.py   # load saved .npz model
 │   └── utils.py             # sigmoid, unigram noise distribution, JSON helpers
+├── tests/
+│   └── test_word2vec.py     # unit tests (pytest)
 └── data/                # corpus and saved model (git-ignored)
 ```
 
@@ -239,6 +241,34 @@ P(\text{discard} \mid w) = 1 - \sqrt{\frac{t \cdot N}{f(w)}}
 where $`f(w)`$ is the absolute frequency of $`w`$, $`N`$ is the total corpus size, and $`t = 10^{-5}`$ is the threshold. Tokens below the threshold frequency are never discarded; tokens far above it are dropped with high probability. The retained sequence is then used as-is, which effectively widens the context window for surviving words.
 
 ---
+
+## Testing
+
+The test suite covers the core building blocks: `sigmoid`, `unigram_noise`, `build_vocab`, `subsample`, `SkipGramModel` (initialisation and a single gradient step), and `nearest_words`.
+
+**Install pytest** (if not already installed):
+
+```bash
+pip install pytest
+```
+
+**Run all tests:**
+
+```bash
+pytest tests/ -v
+```
+
+**Expected output:**
+
+```
+tests/test_word2vec.py::TestSigmoid::test_zero_returns_half          PASSED
+tests/test_word2vec.py::TestSigmoid::test_output_range               PASSED
+...
+35 passed in 0.61s
+```
+
+---
+
 ## Conclusion
 
 
