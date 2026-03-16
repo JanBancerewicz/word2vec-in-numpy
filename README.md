@@ -82,7 +82,7 @@ After training the program enters an interactive similarity loop:
 ========================================
 
   query > war
-```
+
 similar to 'war':
   word            similarity
   --------------------------
@@ -96,6 +96,8 @@ similar to 'war':
   have            0.4054  ████████
   argentina       0.3996  ███████
   and             0.3991  ███████
+```
+
 ---
 
 ## Configuration
