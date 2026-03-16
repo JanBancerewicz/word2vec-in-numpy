@@ -29,4 +29,4 @@ def fetch_dataset() -> None:
 
 
 if __name__ == "__main__":
-    fetch_corpus()
+    fetch_dataset()

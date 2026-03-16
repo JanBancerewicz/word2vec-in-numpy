@@ -6,11 +6,11 @@ def train(
     corpus_ids: np.ndarray,
     vocab_size: int,
     noise_dist: np.ndarray,
-    embed_dim: int = 100,
-    window: int = 7,
-    n_neg: int = 5,
-    lr: float = 0.04,
-    epochs: int = 2,
+    embed_dim: int,
+    window: int,
+    n_neg: int,
+    lr: float,
+    epochs: int,
 ) -> np.ndarray:
     model = SkipGramModel(vocab_size, embed_dim)
     total_steps = epochs * len(corpus_ids)  # used for lr decay schedule
