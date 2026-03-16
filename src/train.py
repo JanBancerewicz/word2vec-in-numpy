@@ -1,5 +1,5 @@
 import numpy as np
-from skipgram_model import SkipGramModel
+from src.skipgram_model import SkipGramModel
 
 
 def train(

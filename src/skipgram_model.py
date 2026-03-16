@@ -1,5 +1,5 @@
 import numpy as np
-from utils import sigmoid
+from src.utils import sigmoid
 
 
 class SkipGramModel:

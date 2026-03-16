@@ -2,10 +2,10 @@ from pathlib import Path
 
 import numpy as np
 
-from load_embeddings import load_embeddings
-from preprocess import prepare_corpus
-from train import train, nearest_words
-from utils import unigram_noise, _json_load
+from src.load_embeddings import load_embeddings
+from src.preprocess import prepare_corpus
+from src.train import train, nearest_words
+from src.utils import unigram_noise, _json_load
 
 ROOT       = Path(__file__).parent
 DATA_PATH  = ROOT / "data" / "text8"
