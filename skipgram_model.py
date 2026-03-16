@@ -19,14 +19,17 @@ class SkipGramModel:
         u_pos = self.context_weights[context_id]
         u_neg = self.context_weights[negatives]
 
-        sigma_pos = sigmoid(np.dot(center_vec, u_pos))
-        sigma_neg = sigmoid(u_neg @ center_vec)
+        sigma_pos = sigmoid(np.dot(center_vec, u_pos))   # P(context | center)
+        sigma_neg = sigmoid(u_neg @ center_vec)           # P(noise   | center)
 
+        # NEG loss: push center closer to context, away from noise words
         loss = -np.log(sigma_pos + 1e-7) - np.sum(np.log(1 - sigma_neg + 1e-7))
 
+        # weights updated per pair — context rows are independent of each other
         self.context_weights[context_id] -= lr * (sigma_pos - 1) * center_vec
         self.context_weights[negatives]  -= lr * sigma_neg[:, None] * center_vec
 
+        # gradient for embeddings
         grad = (sigma_pos - 1) * u_pos + (sigma_neg[:, None] * u_neg).sum(axis=0)
         return loss, grad
 
@@ -51,18 +54,18 @@ class SkipGramModel:
         print(f"{'='*52}")
 
         for step, pos in enumerate(self.rng.permutation(n)):
-            lr_t = base_lr * max(0.0001, 1.0 - (epoch_offset + step) / total_steps)
+            lr_t = base_lr * max(0.0001, 1.0 - (epoch_offset + step) / total_steps)  # linear decay -> 0
 
             center_id  = corpus_ids[pos]
             center_vec = self.embeddings[center_id].copy()
 
-            radius    = self.rng.integers(1, window + 1)
+            radius    = self.rng.integers(1, window + 1)  # dynamic window size per Mikolov et al.
             neighbors = corpus_ids[max(0, pos - radius) : pos + radius + 1]
 
-            grad_acc = np.zeros(self.embeddings.shape[1])
+            grad_acc = np.zeros(self.embeddings.shape[1])  # accumulate before W_in update
 
             for offset, context_id in enumerate(neighbors):
-                if max(0, pos - radius) + offset == pos:
+                if max(0, pos - radius) + offset == pos:  # skip center word itself
                     continue
                 negatives = self.rng.choice(len(noise_dist), size=n_neg, p=noise_dist)
                 loss, g = self.step(center_vec, context_id, negatives, lr_t)
@@ -70,7 +73,7 @@ class SkipGramModel:
                 running_loss += loss
                 n_pairs      += 1
 
-            self.embeddings[center_id] -= lr_t * grad_acc
+            self.embeddings[center_id] -= lr_t * grad_acc  # one update per center word
 
             if (step + 1) % log_interval == 0:
                 pct      = (step + 1) / n
